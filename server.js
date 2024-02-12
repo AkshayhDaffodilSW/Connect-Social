@@ -1,51 +1,28 @@
-const express = require('express')
+
+const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
+const registerRoute = require('./routes/registerRoute');
+const loginRoute = require('./routes/loginRoute');
+const session = require('express-session');
+
 app.listen(5000);
 app.use(express.json());
 
-const users = require("./user");
-app.post("/register" , (req ,res) => {
-    // console.log(req.body);
-    let response;
-    if(users[req.body.email]){
-        response = {
-            message : "User already exists",
-            code: 12,
-            data : req.body
-        }
-    }
-    else{
-        response = {
-            message : "new user to created",
-            code: 11,
-            data : req.body
-        }
-    }
-    res.json(response);
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.error("Error connecting to MongoDB:", err));
+
+app.use("/register", registerRoute);
+app.use("/login", loginRoute);
+app.use(session({
+    resave:false,
+    saveUninitialized:false,
+    secret:"U_U O_O U_U"
+})) 
+
+
+app.get("/logout" , (req , res) => {
+    req.session.destroy();
 })
-app.post("/login" , (req ,res) => {
-    console.log(req.body);
-    let response;
-    if(!users[req.body.email]  || (users[req.body.email].password  !== req.body.pass)){
-        response = {
-            message : "wrong email",
-            code: 13,
-            data : req.body
-        }
-    }
-    else{
-        response = {
-            message : "Authenticated user",
-            code: 14,
-            data : req.body
-        }
-    }
-    res.json(response);
-})
-
-
-
-
-
-
-
