@@ -1,5 +1,7 @@
 import { Text } from '@chakra-ui/react'
-import React , {useState} from 'react'
+import React , {useState , useEffect} from 'react'
+
+import { useNavigate } from 'react-router-dom';
 
 import {
     FormControl,
@@ -10,7 +12,7 @@ import {
   } from '@chakra-ui/react'
 
 import { useRequiredError } from '../../CustomHooks/useRequiredError'
-import { tryLogin } from './working/loginLogic'
+import { tryLogin , tryLoginIfPossible} from './working/loginLogic'
 
 
 function Login(props) {
@@ -23,6 +25,18 @@ function Login(props) {
   
     const isThereErrorInEmail = useRequiredError(email);
     const isThereErrorInPass = useRequiredError(pass);
+
+    const navigate = useNavigate();
+
+  function isValid(isit){
+    if(isit){
+      navigate("/home");
+    }
+  }
+  useEffect(() => {
+    tryLoginIfPossible(isValid);
+  } , []);
+
 
 
   return (
@@ -75,7 +89,7 @@ function Login(props) {
             w="40%"
             type='submit'
             color="white"
-            onClick={() => tryLogin(email , pass , props.checker)}
+            onClick={() => tryLogin(email , pass , props.checker , isValid)}
           >
             Login
           </Button>

@@ -14,10 +14,13 @@ router.post("/", async (req, res) => {
                 message: "User already exists",
                 code: 12,
             };
+
+            res.json(response);
         } else {
-            hash({ password: req.body.pass }, async function (err, salt, hash) {
+            let newUser;
+            hash({ password: req.body.pass }, async function (err,pass, salt, hash) {
                 if (err) throw err;
-                const newUser = new user({
+                 newUser = new user({
                     _id: new mongoose.Types.ObjectId(),
                     f_name: req.body.name,
                     s_name: req.body.secondname,
@@ -26,15 +29,20 @@ router.post("/", async (req, res) => {
                     salt: salt
                 });
                 try {
-                    console.log(newUser);
+                    req.session.regenerate(function(){
+                        req.session.user = {
+                            fName : newUser.f_name,
+                            sName : newUser.s_name,
+                            email : newUser.email
+                        };
+                    })
                     await newUser.save();
                     console.log("User saved successfully");
                     response = {
                         message: "User created successfully",
                         code: 11,
                     };
-                    req.session.user = newUser;
-                    console.log(req.session);
+                    
                 } catch (err) {
                     console.error("Error saving user:", err);
                     response = {
@@ -44,9 +52,7 @@ router.post("/", async (req, res) => {
                 }
                 res.json(response);
             });
-            return;
         }
-        res.json(response);
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({ message: "Internal server error" });

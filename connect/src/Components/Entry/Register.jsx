@@ -1,5 +1,7 @@
 import { Text } from '@chakra-ui/react'
-import React , {useState} from 'react'
+import React , {useState ,useEffect} from 'react'
+
+import { useNavigate } from 'react-router-dom';
 
 import {
     FormControl,
@@ -10,7 +12,7 @@ import {
   } from '@chakra-ui/react'
 
 import { useRequiredError } from '../../CustomHooks/useRequiredError'
-import { tryRegister } from './working/registerLogic';
+import { tryRegister , tryRegisterIfPossible} from './working/registerLogic';
 
 
 function Register(props) {
@@ -33,6 +35,19 @@ function Register(props) {
   const isThereErrorInPass = useRequiredError(pass);
 
   
+  const navigate = useNavigate();
+
+  function isValid(isit){
+    if(isit){
+      
+      navigate("/home");
+    }
+  }
+  useEffect(() => {
+    tryRegisterIfPossible(isValid);
+  } , []);
+
+
   return (
     <div>
       <Text
@@ -110,7 +125,7 @@ function Register(props) {
             w="40%"
             type='submit'
             color="white"
-            onClick={() => tryRegister(firstName , secondName , email, pass, rePass , props.checker)}
+            onClick={() => tryRegister(firstName , secondName , email, pass, rePass , props.checker , isValid)}
             >
               Sign Up
             </Button>

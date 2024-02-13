@@ -1,5 +1,5 @@
 
-export async function tryRegister(name , secondname, email , pass , repass , checker){
+export async function tryRegister(name , secondname, email , pass , repass , checker , isValid){
 
     if(pass !== repass){
         checker("fail" , "Passwords Don't Match Q_Q")
@@ -15,7 +15,7 @@ export async function tryRegister(name , secondname, email , pass , repass , che
     })
     .then(res => {
         if(!res.ok)
-            console("prob");
+            console("prob T_T at registerLogic");
         return res.json()
     })
     .then(res  => {
@@ -25,6 +25,21 @@ export async function tryRegister(name , secondname, email , pass , repass , che
         }
         else{
             checker("success" , "User Created")
+            isValid(true);
+        }
+    })
+}
+export async function tryRegisterIfPossible(func){
+    fetch("/home" , {
+        method :"GET",
+        headers : {
+            "Content-Type":"application/json"
+        },
+    })
+    .then( res => {
+        if(res.status === 200){
+            console.log("%_% user found(registerLogic)")  
+            func(true);
         }
     })
 }
