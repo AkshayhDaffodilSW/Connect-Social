@@ -7,15 +7,10 @@ import {
     Avatar,
     Heading,
     Text,
-    // IconButton,
     CardBody,
     Image,
     CardFooter,
     Button,
-    // BiLike,
-    // BiChat,
-    // BiShare,
-    // BsThreeDotsVertical
 } from "@chakra-ui/react"
 import { FcLike } from "react-icons/fc";
 import { FaCommentAlt  , FaShareAlt} from "react-icons/fa";

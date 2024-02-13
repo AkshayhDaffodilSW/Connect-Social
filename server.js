@@ -1,12 +1,16 @@
 
 const express = require('express');
 const app = express();
+require('dotenv').config();
+
+const session = require('express-session');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
+
 const homeRoute = require("./routes/homeRoute")
 const registerRoute = require('./routes/registerRoute');
 const loginRoute = require('./routes/loginRoute');
-const session = require('express-session');
+// const getPostsRoute = require("./routes/getPostsRoute")
+// const getPostsRoute = require("./routes/putPostRoute")
 
 app.listen(5000);
 app.use(express.json());
@@ -24,7 +28,8 @@ app.use(session({
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/home" , homeRoute);
-
+// app.use("/getposts" , getPostsRoute);
+// app.use("/putpost" , putPostRoute);
 
 app.get("/logout" , (req , res) => {
     req.session.destroy();

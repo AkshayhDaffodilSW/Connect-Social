@@ -7,6 +7,7 @@ router.get("/" , (req , res) => {
         res.status(300);
     }
     else{
+        console.log("kya bhai");
         res.status(200);
     }
     res.end();

@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const user = require('../models/user');
@@ -14,13 +13,11 @@ router.post("/", async (req, res) => {
                 message: "User already exists",
                 code: 12,
             };
-
             res.json(response);
         } else {
-            let newUser;
-            hash({ password: req.body.pass }, async function (err,pass, salt, hash) {
+            hash({ password: req.body.pass }, async function (err, pass, salt, hash) {
                 if (err) throw err;
-                 newUser = new user({
+                let newUser = new user({
                     _id: new mongoose.Types.ObjectId(),
                     f_name: req.body.name,
                     s_name: req.body.secondname,
@@ -29,28 +26,28 @@ router.post("/", async (req, res) => {
                     salt: salt
                 });
                 try {
-                    req.session.regenerate(function(){
+                    req.session.regenerate(async function () {
                         req.session.user = {
-                            fName : newUser.f_name,
-                            sName : newUser.s_name,
-                            email : newUser.email
+                            fName: newUser.f_name,
+                            sName: newUser.s_name,
+                            email: newUser.email
                         };
-                    })
-                    await newUser.save();
-                    console.log("User saved successfully");
-                    response = {
-                        message: "User created successfully",
-                        code: 11,
-                    };
-                    
+                        await newUser.save();
+                        console.log("User saved successfully");
+                        response = {
+                            message: "User created successfully",
+                            code: 11,
+                        };
+                        res.json(response);
+                    });
                 } catch (err) {
                     console.error("Error saving user:", err);
                     response = {
                         message: "Error saving user",
                         code: 500,
                     };
+                    res.json(response);
                 }
-                res.json(response);
             });
         }
     } catch (error) {

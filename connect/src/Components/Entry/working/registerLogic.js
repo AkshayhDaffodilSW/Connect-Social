@@ -19,27 +19,12 @@ export async function tryRegister(name , secondname, email , pass , repass , che
         return res.json()
     })
     .then(res  => {
-        // console.log(res.code);
         if(res.code === 12){
             checker("fail" , "User Already Exists")
         }
         else{
             checker("success" , "User Created")
             isValid(true);
-        }
-    })
-}
-export async function tryRegisterIfPossible(func){
-    fetch("/home" , {
-        method :"GET",
-        headers : {
-            "Content-Type":"application/json"
-        },
-    })
-    .then( res => {
-        if(res.status === 200){
-            console.log("%_% user found(registerLogic)")  
-            func(true);
         }
     })
 }

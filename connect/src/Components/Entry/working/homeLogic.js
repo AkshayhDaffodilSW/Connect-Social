@@ -6,10 +6,12 @@ export async function tryHome(func){
             "Content-Type":"application/json"
         },
     })
-    .then( res => {
+    .then( async res => {
         if(res.status === 300){
             console.log("%_% not user found(homeLogic)")  
-            func(false);
+        }
+        else{
+            func(true);
         }
     })
 }

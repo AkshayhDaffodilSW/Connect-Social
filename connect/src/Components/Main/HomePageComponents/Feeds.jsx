@@ -12,13 +12,6 @@ function Feeds() {
       boxShadow='xl'
       >
         <Feed/>
-        <Feed/>
-        <Feed/>
-        <Feed/>
-        <Feed/>
-        <Feed/>
-        <Feed/>
-        <Feed/>
         
       </Card>
     </div>

@@ -16,11 +16,12 @@ export async function tryLogin(email , pass, checker , isValid){
         return res.json()
     })
     .then(res  => {
-        console.log(res.code);
+        console.log(res);
         if(res.code === 13){
             checker("fail" , "Wrong Username or Password")
         }
         else{
+            console.log("here inside login Logic")
             checker("success" , "Success")
             isValid(true);
         }
@@ -37,6 +38,9 @@ export async function tryLoginIfPossible(func){
         if(res.status === 200){
             console.log("%_%  user found(loginLogic)")  
             func(true);
+        }
+        else{
+            console.log(" '_' user not found(loginLogic)")
         }
     })
 }
