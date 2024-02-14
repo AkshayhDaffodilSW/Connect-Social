@@ -1,14 +1,29 @@
-import React from 'react'
+import React , {useState} from 'react'
 import "./imageInputStyles.css"
 import { Text } from '@chakra-ui/react'
 
 function ImageInput(props) {
 
-  function previewPhoto(e){
+
+  const [fileBuffer, setFileBuffer] = useState(null);
+
+  function previewPhoto(event){
     //passing value back to parent 
-    props.previewFunciton(URL.createObjectURL(e.target.files[0]));
+    
+    const file = event.target.files[0]; 
+
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      const buffer = e.target.result; 
+      // console.log(buffer);
+      setFileBuffer(buffer); 
+      props.previewFunciton(URL.createObjectURL(file) , buffer);
+    };
+    reader.readAsArrayBuffer(file);
   }
 
+  
   return (
     <div>
       <label 

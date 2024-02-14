@@ -26,7 +26,6 @@ router.post("/", async (req, res) => {
                     salt: salt
                 });
                 try {
-                    req.session.regenerate(async function () {
                         req.session.user = {
                             fName: newUser.f_name,
                             sName: newUser.s_name,
@@ -39,7 +38,7 @@ router.post("/", async (req, res) => {
                             code: 11,
                         };
                         res.json(response);
-                    });
+
                 } catch (err) {
                     console.error("Error saving user:", err);
                     response = {

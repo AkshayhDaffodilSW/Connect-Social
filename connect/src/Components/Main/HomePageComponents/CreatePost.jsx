@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import ImageInput from './ImageInput'
 import { FaPaperPlane } from "react-icons/fa6";
+import { handlePostSubmit } from './working/postStoreLogic';
 
 
 function CreatePost() {
@@ -18,6 +19,7 @@ function CreatePost() {
     const [srcValue , setSrcValue] = useState("#");
     const [buttonProp ,setButtonProp] = useState(false)
     const [commentValue , setCommentValue] = useState("");
+    const [fileBuffer, setFileBuffer] = useState(null);
 
     function handleInputValueChange(event){
         let temp = event.target.value;
@@ -30,11 +32,16 @@ function CreatePost() {
         }
         setCommentValue(event.target.value);
     }
-
     
-    function changeScr(getBackValue){
+    function clearValues(){
+        setSrcValue("#");
+        setCommentValue("");
+    }
+
+    function changeScr(getBackValueSRC , getBackValueBuffer){
         setButtonProp(true);
-        setSrcValue(getBackValue);
+        setSrcValue(getBackValueSRC);
+        setFileBuffer(getBackValueBuffer);
     }
 
   return (
@@ -96,6 +103,10 @@ function CreatePost() {
                 {buttonProp ?
                 <Button 
                 colorScheme='red'
+                onClick ={() => {
+                    handlePostSubmit(fileBuffer , commentValue)
+                    clearValues()
+                }}
                 >
                     <Flex>
                         <Text

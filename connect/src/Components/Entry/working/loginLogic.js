@@ -16,20 +16,18 @@ export async function tryLogin(email , pass, checker , isValid){
         return res.json()
     })
     .then(res  => {
-        console.log(res);
         if(res.code === 13){
             checker("fail" , "Wrong Username or Password")
         }
         else{
-            console.log("here inside login Logic")
             checker("success" , "Success")
             isValid(true);
         }
     })
 }
 export async function tryLoginIfPossible(func){
-    fetch("/home" , {
-        method :"GET",
+    fetch("/userthere" , {
+        method :"POST",
         headers : {
             "Content-Type":"application/json"
         },

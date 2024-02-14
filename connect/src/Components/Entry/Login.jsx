@@ -29,7 +29,7 @@ function Login(props) {
     const navigate = useNavigate();
 
   function isValid(isit){
-    if(isit == true){
+    if(isit === true){
       navigate("/home");
     }
   }

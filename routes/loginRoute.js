@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
     try {
         const users = await user.findOne({ email: req.body.email });
         let response;
-        if (!users) {
+        if (!users) {   
             response = {
                 message: "Wrong email",
                 code: 13,

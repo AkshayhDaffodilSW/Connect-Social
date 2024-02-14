@@ -15,7 +15,8 @@ import {
 import { FcLike } from "react-icons/fc";
 import { FaCommentAlt  , FaShareAlt} from "react-icons/fa";
 
-function Feed() {
+function Feed(props) {
+
   return (
     <div>
       <Card 
@@ -26,11 +27,11 @@ function Feed() {
         <CardHeader>
             <Flex spacing='4'>
                 <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
-                    <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
+                    <Avatar name='User' src='' />
 
                     <Box>
-                    <Heading size='sm'>Segun Adebayo</Heading>
-                    <Text>Creator, Chakra UI</Text>
+                    <Heading size='sm'>{props.email}</Heading>
+                    <Text>{props.text}</Text>
                     </Box>
                 </Flex>
             {/* <IconButton
@@ -48,8 +49,8 @@ function Feed() {
         </CardBody>
         <Image
             objectFit='cover'
-            src='https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-            alt='Chakra UI'
+            src={props.url}
+            alt=''
             m={2}
         />
 
